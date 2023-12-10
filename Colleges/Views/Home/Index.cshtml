@@ -1,0 +1,85 @@
+﻿@model List<Student_Course_UniversityDetails>
+@{
+    ViewData["Title"] = "Home Page";
+}
+
+<table>
+    <tr>
+        <th>Student ID</th>
+        <th>Student Name</th>
+        <th>Course ID</th>
+        <th>Course Name</th>
+        <th>University ID</th>
+        <th>University Name</th>
+    </tr>
+        @foreach(var data in Model)
+        {
+    <tr>
+        <td>@data.Student_Id</td>
+        <td>@data.Student_Name</td>
+        <td>@data.Course_Id</td>
+        <td>@data.Course_Name</td>
+        <td>@data.University_Id</td>
+        <td>@data.University_Name</td>
+    </tr>
+        }
+</table>
+
+<table>
+
+    <tr>
+        <th>Student</th>
+        <th>University</th>
+        <th>Course</th>
+    </tr>
+    <tr>
+        <form id="StudentData" onsubmit="return AddToData()">
+        <td>
+                <input id="student" name="Student_Name" class="form-control" value="" placeholder="Student">
+
+        </td>
+        <td>
+                <input id="university" name="University_Name" class="form-control" value="" placeholder="University">
+        </td>
+        <td>
+                <input id="course" name="Course_Name" class="form-control" value="" placeholder="Course">
+        </td>
+        <td>
+
+            <button type="submit" class="btn btn-light" >Add</button>
+            <a href="/Home/EditDetails">Edit</a>
+        </td>
+            </form>
+    </tr>
+
+</table>
+
+<script>
+    function AddToData() {
+        // Prevent the default form submission
+        event.preventDefault()
+        // Get the form element
+
+        var form = document.getElementById('StudentData')
+
+        // Create a new FormData object
+        var formData = new FormData(form)    // Make an Ajax request
+        $.ajax({
+            url: '/Home/AddToStudent_Course_University',
+            type: 'POST',
+            data: formData,
+            contentType: false,
+            processData: false,
+            success: function (response) {
+                console.log(response)
+
+            },
+            error: function (xhr, status, error) {
+                // Handle the error response
+                console.error(error)
+            }
+        })
+    }
+
+
+</script>

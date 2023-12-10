@@ -1,0 +1,62 @@
+﻿@model List<Student_Course_UniversityDetails>
+
+
+<table>
+    <tr>
+        <th>Student</th>
+        <th>University</th>
+        <th>Course</th>
+    </tr>
+
+    @foreach (var data in Model)
+    {
+        <form onsubmit="return AddToData(this, @data.Student_Id, @data.Course_Id, @data.University_Id);">
+            <tr>
+                <td>
+                <input id="@data.Student_Id" name="Student_Name" class="form-control" value="@data.Student_Name" placeholder="@data.Student_Name">
+                </td>
+                <td>
+                <input id="@data.Course_Id" name="Course_Name" class="form-control" value="@data.Course_Name" placeholder="@data.Course_Name">
+                </td>
+                <td>
+                <input id="@data.University_Id" name="University_Name" class="form-control" value="@data.University_Name" placeholder="@data.University_Name">
+                </td>
+                <td>
+                    <button type="submit" class="btn btn-ligth">Add</button>
+                </td>
+            </tr>
+        </form>
+    }
+</table>
+
+
+<script>
+    function AddToData(form, studentId, courseId, universityId) {
+        debugger
+        // Get form data using FormData
+        var formData = new FormData(form);
+        // Append additional values
+        formData.append('Student_Id', studentId);
+        formData.append('Course_Id', courseId);
+        formData.append('University_Id', universityId);
+        // Make an AJAX request
+        $.ajax({
+            url: '/Home/EditDetails', // Adjust the URL based on your controller route
+            type: 'POST',
+            data: formData,
+            contentType: false,
+            processData: false,
+            success: function (response) {
+                // Handle the success response
+                console.log(response);
+            },
+            error: function (xhr, status, error) {
+                // Handle the error response
+                console.error(error);
+            }
+        });
+
+        // Prevent the default form submission
+        return false;
+    }
+</script>
